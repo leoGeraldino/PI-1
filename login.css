@@ -1,6 +1,6 @@
 body{
-    background: #fcbd88; /* Cor de fundo de fallback */
-    background: radial-gradient(circle, #fcbd88, #f26b3a); /* Degradê radial */
+    background: #fcbd88; 
+    background: radial-gradient(circle, #fcbd88, #f26b3a); 
     font-family: 'Bebas Neue', sans-serif;
 }
 
