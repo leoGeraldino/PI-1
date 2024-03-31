@@ -1,4 +1,23 @@
+body{
+    background: #fcbd88; /* Cor de fundo de fallback */
+    background: radial-gradient(circle, #fcbd88, #f26b3a); /* Degradê radial */
+    font-family: 'Bebas Neue', sans-serif;
+}
+
 label, input[type="submit"], a{
     display: block;
     margin-bottom: 10px;
+}
+
+input[type="submit"]{
+    margin-top: 10px;
+}
+
+.visually-hidden{
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
 }
