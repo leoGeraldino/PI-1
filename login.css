@@ -1,0 +1,4 @@
+label, input[type="submit"], a{
+    display: block;
+    margin-bottom: 10px;
+}
