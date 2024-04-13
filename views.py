@@ -5,14 +5,34 @@ views = Blueprint("views", __name__)
 
 configuracao_bd = {
     'user': 'root',
-    'password': 'Pedirrato10@',
+    'password': 'password02',
     'host': 'localhost',
     'database': 'deck_digital',
     'raise_on_warnings': True
 }
 
-@views.route('/index.html')
+@views.route('/index.html', methods =['GET', 'POST'])
 def index():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        try:
+            conexao = mysql.connector.connect(**configuracao_bd)
+            cursor = conexao.cursor()
+
+            query = "SELECT * FROM usuarios WHERe username = %s AND password = %s"
+            cursor.execute(query, (username,password))
+            usuario = cursor.fetchone()
+
+            if usuario:
+                return redirect(url_for('views.perfil'))
+            else:
+                message3 = "Nome de usuário ou senha incorretos. Por favor, tente novamente."
+                return render_template('index.html', message3 = message3)
+        
+        except mysql.connector.Error as error3:
+            return "Erro ao conectar-se ao banco de dados:{}".format(error3)
     return render_template('index.html')
 
 @views.route('/registro.html', methods=['GET', 'POST'])
@@ -44,7 +64,7 @@ def registro():
             return redirect(url_for('views.index'))
     
         except mysql.connector.Error as error:
-            return "Erro ao conectar-se ao banco de dados:{}". format(error)
+            return "Erro ao conectar-se ao banco de dados:{}".format(error)
     
     return render_template('registro.html')
 
@@ -88,6 +108,6 @@ def reset():
             return redirect(url_for('views.index'))
         
         except mysql.connector.Error as error2:
-            return "Erro ao conectar-se ao banco de dados:{}", format(error2)
+            return "Erro ao conectar-se ao banco de dados:{}".format(error2)
 
     return render_template('reset.html')
