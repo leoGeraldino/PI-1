@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'CSS/estilo.css')}}" />
+    <title>Reset sua senha| Deck Digital</title>
+</head>
+<body>
+	<div class="container">
+		<h2>Reset sua senha</h2>
+		{% if message2 %}
+			<div class="alert alert-danger" role="alert">
+				{{message2}}
+			</div>
+		{% endif %}
+
+		<form method="post" action="{{ url_for('views.reset')}}">
+		<div class="form-group">
+			<label for="username" class="">Nome de usuário:</label>
+			<input type="text" id="username" name="username" placeholder="Nome de usuário" required>       
+        </div>
+		<div class="form-group">
+			<label for="password" class="">Nova senha:</label>
+			<input type="password" id="password" name="password" placeholder="Senha" required>
+		</div>
+		<div class="form-group">
+			<label for="email" class="">E-mail:</label>
+			<input type="password" id="email" name="email" placeholder="E-mail" required>
+        </div>
+		<div class="form-group">
+			<label for="bday">Data de nascimento:</label>
+			<input type="date" id="bday" name="bday" placeholder="dd/mm/aaaa" required>
+		</div>
+		<div class="form-group-termos">			
+			<div><label for="termos">Li e concordo com os termos de uso</label></div>
+			<div><input type="checkbox" id="termos" name="termos" required></div>			
+		</div>		
+        <div class="form-group">
+			<!--<a href="{{ url_for('views.perfil') }}" class="botao-link">Registrar</a>-->
+			<input type="submit" value="Resetar senha" class="botao-link">
+		</div>
+	</form>
+	</div>
+</body>
+</html>
