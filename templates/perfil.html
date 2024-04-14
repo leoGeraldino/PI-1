@@ -14,19 +14,19 @@
 		<form method="post">
 		<div class="form-group">
 			<label for="username" class="">Nome de usuário:</label>
-			<input type="text" id="username" name="username" value="Rafael Veiga" required>       
+			<input type="text" id="username" name="username" value="{{ usuario[1]}}" required>       
         </div>
 		<div class="form-group">
 			<label for="password" class="">Senha:</label>
-			<input type="password" id="password" name="password" value="**********" required>
+			<input type="password" id="password" name="password" value="{{ usuario[2]}}" required>
 		</div>
 		<div class="form-group">
 			<label for="email" class="">E-mail:</label>
-			<input type="text" id="email" name="email" value="rafal@email.com" required>
+			<input type="text" id="email" name="email" value="{{ usuario[3]}}" required>
         </div>
 		<div class="form-group">
 			<label for="bday">Data de nascimento:</label>
-			<input type="text" id="bday" name="bday" value="25/12/1990" required>
+			<input type="text" id="bday" name="bday" value="{{ usuario[4]}}" required>
 		</div>				
         <div class="form-group">
 			<!--<a href="Perfil.html" class="botao-link">Salvar alterações</a>-->
