@@ -5,13 +5,13 @@ views = Blueprint("views", __name__)
 
 configuracao_bd = {
     'user': 'root',
-    'password': 'senha',
+    'password': '123456',
     'host': 'localhost',
     'database': 'deck_digital',
     'raise_on_warnings': True
 }
 
-@views.route('/index.html', methods=['GET', 'POST']) #falta funcionar a autenticação -> verificar se o usuário e senha inseridos estão corretos
+@views.route('/index.html', methods=['GET', 'POST']) 
 def index():
     if request.method == 'POST':
         username = request.form['username']
