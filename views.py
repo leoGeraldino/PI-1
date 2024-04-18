@@ -164,46 +164,40 @@ def perfil():
 
 @views.route('/cartas.html', methods=['GET', 'POST'])
 def cartas():
+    id_usuario = session.get('id_usuario')
+    if id_usuario is None:
+        return redirect(url_for('views.index'))
+    
     if request.method == 'POST':
-        return render_template('cartas.html')
-    return render_template('cartas.html')
-
-'''if user_id in session:
-    user_id = session['user_id']
-
-        card = request.form['card']
-        preco = request.form['preco']
-        artista = request.form['artista']
-        tipo = request.form['tipo']
-        texto = request.form['texto']
-        lealdade = request.form['lealdade']
-        cmc = request.form['cmc']
-        edicao = request.form['edicao']
-        formato = request.form['formato']
-        raridade = request.form['raridade']
-        cor = request.form['cor']
-        pr = request.form['pr']
-        custos = request.form['custos']
-
-        try: 
+        try:
             conexao = mysql.connector.connect(**configuracao_bd)
             cursor = conexao.cursor()
 
-            query = "INSERT INTO cartas (idUsuario, card, preco, artista, tipo, texto, lealdade, CMC, edicao, formato, raridade, cor, pr, custos) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            card = request.form['card']
+            preco = request.form['preco']
+            artista = request.form['artista']
+            tipo = request.form['tipo']
+            texto = request.form['texto']
+            lealdade = request.form['lealdade']
+            cmc = request.form['cmc']
+            edicao = request.form['edicao']
+            formato = request.form['formato']
+            raridade = request.form['raridade']
+            cor = request.form['cor']
+            pr = request.form['pr']
+            custos = request.form['custos']
 
-            
-            cursor.execute(query, (user_id, card, preco, artista, tipo, texto, lealdade, cmc, edicao, formato, raridade, cor, pr, custos ))
+            query = "INSERT INTO cartas (idUsuario, card, preco, artista, tipo, texto, lealdade, CMC, edicao, formato, raridade, cor, pr, custos) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            cursor.execute(query, (id_usuario, card, preco, artista, tipo, texto, lealdade, cmc, edicao, formato, raridade, cor, pr, custos))
             conexao.commit()
 
             cursor.close()
             conexao.close()
 
-            return redirect(url_for('views.perfil'))
-        
+            return redirect(url_for('views.perfil', id_usuario = id_usuario))
+
         except mysql.connector.Error as error:
-            return "Erro ao conectar-se ao banco de dados:{}".format(error)'''    
-
-
-
-
-
+            return "Erro ao conectar-se ao banco de dados:{}".format(error)
+        
+    else:
+        return render_template('cartas.html')
