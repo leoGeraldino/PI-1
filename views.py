@@ -11,29 +11,7 @@ configuracao_bd = {
     'raise_on_warnings': True
 }
 
-@views.route('/index.html', methods=['GET', 'POST']) 
-def index():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        try:
-            conexao = mysql.connector.connect(**configuracao_bd)
-            cursor = conexao.cursor()
-
-            query = "SELECT * FROM usuarios WHERE username = %s AND password = %s"
-            cursor.execute(query, (username, password))
-            usuario = cursor.fetchone()
-
-            if usuario:
-                return redirect(url_for('views.perfil'))
-            else:
-                message3 = "Nome de usuário ou senha incorretos. Por favor, tente novamente."
-                return render_template('index.html', message3 = message3)
-        
-        except mysql.connector.Error as error:
-            return "Erro ao conectar-se ao banco de dados:{}".format(error)
-    return render_template('index.html')
+#rota de registro de usuário
 
 @views.route('/registro.html', methods=['GET', 'POST'])
 def registro():
@@ -67,6 +45,122 @@ def registro():
             return "Erro ao conectar-se ao banco de dados:{}".format(error)
     
     return render_template('registro.html')
+
+# rota de reset de senha
+
+@views.route('/reset.html', methods=['GET', 'POST'])
+def reset():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+        bday = request.form['bday']
+
+        try:
+            conexao = mysql.connector.connect(**configuracao_bd)
+            cursor = conexao.cursor()
+
+            query = "SELECT * FROM usuarios WHERE username = %s AND email = %s AND bday = %s"
+            cursor.execute(query, (username, email, bday))
+            usuario = cursor.fetchone()
+
+            if not usuario:
+                message2 = "Usuário não encontrado. Por favor verifique as informações inseridas."
+                return render_template('reset.html', message2 = message2)
+            
+            query = "UPDATE usuarios SET password =%s WHERE username = %s"
+            cursor.execute(query, (password, username))
+            conexao.commit()
+
+            cursor.close()
+            conexao.close()
+            return redirect(url_for('views.index'))
+        
+        except mysql.connector.Error as error:
+            return "Erro ao conectar-se ao banco de dados:{}".format(error)
+
+    return render_template('reset.html')
+
+# rota de login
+
+@views.route('/index.html', methods=['GET', 'POST']) 
+def index():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        try:
+            conexao = mysql.connector.connect(**configuracao_bd)
+            cursor = conexao.cursor()
+
+            query = "SELECT idUsuarios FROM usuarios WHERE username = %s AND password = %s"
+            cursor.execute(query, (username, password))
+            usuario = cursor.fetchone()
+
+            if usuario:
+                id_usuario = usuario[0] 
+                session['id_usuario'] = id_usuario
+                return redirect(url_for('views.perfil', id_usuario = id_usuario))
+            else:
+                message3 = "Nome de usuário ou senha incorretos. Por favor, tente novamente."
+                return render_template('index.html', message3 = message3)
+        
+        except mysql.connector.Error as error:
+            return "Erro ao conectar-se ao banco de dados:{}".format(error)
+    return render_template('index.html')
+
+# rota de perfil
+
+@views.route('/perfil.html', methods=['GET', 'POST'])
+def perfil():
+    id_usuario = session.get('id_usuario')
+    if id_usuario is None:
+        return redirect(url_for('views.index'))
+    
+    if request.method == 'POST':
+        try:
+            conexao = mysql.connector.connect(**configuracao_bd)
+            cursor = conexao.cursor()
+
+            username = request.form['username']
+            password = request.form['password']
+            email = request.form['email']
+            bday = request.form['bday']
+
+            if not username or not password or not email or not bday:
+                return "Por favor, preencha todos os campos"
+                
+            query = "UPDATE usuarios SET username =%s, password=%s, email=%s, bday=%s WHERE idUsuarios = %s"
+            cursor.execute(query, (username, password, email, bday, id_usuario))
+            conexao.commit()
+
+            cursor.close()
+            conexao.close()
+
+            return redirect(url_for('views.perfil', id_usuario = id_usuario)) 
+        
+        except mysql.connector.Error as error:
+                return "Erro ao conectar-se ao banco de dados:{}".format(error)
+    
+    else:
+        try:
+            conexao = mysql.connector.connect(**configuracao_bd)
+            cursor = conexao.cursor()
+
+            query = "SELECT * FROM usuarios WHERE idUsuarios = %s"
+            cursor.execute(query, (id_usuario,))
+            usuario = cursor.fetchone()
+
+            if usuario:
+                return render_template ('perfil.html', usuario=usuario)
+            else:
+                return "Usuário não encontrado"
+            
+        except mysql.connector.Error as error:
+            return "Erro ao conectar-se ao banco de dados:{}".format(error)
+        
+        
+# rota de adicionar cartas
 
 @views.route('/cartas.html', methods=['GET', 'POST'])
 def cartas():
@@ -110,87 +204,6 @@ def cartas():
             return "Erro ao conectar-se ao banco de dados:{}".format(error)'''    
 
 
-@views.route('/perfil.html', methods=['GET', 'POST'])
-def perfil():
-    if request.method == 'POST':
-        #return redirect(url_for('views.perfil'))
-        if 'username' in request.form and 'password' in request.form and 'email' in request.form and 'bday' in request.form:
-            username = request.form['username']
-            password = request.form['password']
-            email = request.form['email']
-            bday = request.form['bday']
 
-            if not username or not password or not email or not bday:
-                return "Por favor, preencha todos os campos"
 
-            try:
-                conexao = mysql.connector.connect(**configuracao_bd)
-                cursor = conexao.cursor()
 
-                user_id = 1
-
-                query = "UPDATE usuarios SET username = %s, password = %s, email = %s, bday = %s WHERE idUsuarios = %s"
-                cursor.execute(query,(username, password, email, bday, user_id))
-                conexao.commit()
-
-                cursor.close()
-                conexao.close()
-
-                return redirect(url_for('views.perfil'))
-            
-            except mysql.connector.Error as error:
-                return "Erro ao conectar-se ao banco de dados:{}".format(error)
-    
-    else:
-        try:
-            conexao = mysql.connector.connect(**configuracao_bd)
-            cursor = conexao.cursor()
-
-            user_id = 1
-
-            query = "SELECT * FROM usuarios WHERE idUsuarios = %s"
-            cursor.execute(query, (user_id,))
-            usuario = cursor.fetchone()
-
-            if usuario: 
-                return render_template('perfil.html', usuario=usuario)
-            else:
-                return "Usuário não encontrado no banco de dados."
-            
-        except mysql.connector.Error as error:
-            return "Erro ao conectar-se ao banco de dados:{}".format(error)
-
-    return render_template('perfil.html')
-
-@views.route('/reset.html', methods=['GET', 'POST'])
-def reset():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        email = request.form['email']
-        bday = request.form['bday']
-
-        try:
-            conexao = mysql.connector.connect(**configuracao_bd)
-            cursor = conexao.cursor()
-
-            query = "SELECT * FROM usuarios WHERE username = %s AND email = %s AND bday = %s"
-            cursor.execute(query, (username, email, bday))
-            usuario = cursor.fetchone()
-
-            if not usuario:
-                message2 = "Usuário não encontrado. Por favor verifique as informações inseridas."
-                return render_template('reset.html', message2 = message2)
-            
-            query = "UPDATE usuarios SET password =%s WHERE username = %s"
-            cursor.execute(query, (password, username))
-            conexao.commit()
-
-            cursor.close()
-            conexao.close()
-            return redirect(url_for('views.index'))
-        
-        except mysql.connector.Error as error:
-            return "Erro ao conectar-se ao banco de dados:{}".format(error)
-
-    return render_template('reset.html')
