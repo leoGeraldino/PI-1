@@ -10,7 +10,7 @@
 
 <div class="container">
   <h2>Formulário de Cadastro</h2>
-  <form action="post" action="{{ url_for('views.cartas') }}">
+  <form method="post" action="{{ url_for('views.cartas') }}">
     <div class="form-group">
       <label for="card">Card:</label>
       <input type="text" id="card" name="card" required>
@@ -63,8 +63,8 @@
       <label for="custos">Custos:</label>
       <input type="text" id="custos" name="custos" required>
     </div>
-    <a href="{{ url_for('views.perfil')}}" class="botao-link">Cadastrar</a>
-    <!--<input type="submit" value="Cadastrar" class="botao-link"/>--> 
+    <!--<a href="{{ url_for('views.perfil')}}" class="botao-link">Cadastrar</a>-->
+    <input type="submit" value="Cadastrar" class="botao-link"/> 
   </form>
 </div>
 
