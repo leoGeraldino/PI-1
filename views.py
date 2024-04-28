@@ -201,3 +201,7 @@ def cartas():
         
     else:
         return render_template('cartas.html')
+    
+@views.route('/decks.html')
+def decks():
+    return render_template('decks.html')
