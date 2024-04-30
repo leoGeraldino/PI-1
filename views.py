@@ -202,6 +202,56 @@ def cartas():
     else:
         return render_template('cartas.html')
     
-@views.route('/decks.html')
+@views.route('/decks.html', methods = ['GET', 'POST'])
 def decks():
-    return render_template('decks.html')
+    id_usuario = session.get('id_usuario')
+    if id_usuario is None:
+        return redirect(url_for('views.index'))
+    
+    lista_cartas = []
+    indice_cartas = []
+
+    try:
+        conexao = mysql.connector.connect(**configuracao_bd)
+        cursor = conexao.cursor()
+
+        query = "SELECT idCarta, card FROM cartas WHERE idUsuario = %s"
+        cursor.execute(query, (id_usuario,))       
+        resultados = cursor.fetchall()
+
+        indice_cartas = [row [0] for row in resultados]
+        lista_cartas = [row[1] for row in resultados]
+
+        if not lista_cartas:
+            message4 = "Para cadastrar um deck, você precisa cadastrar uma carta. "
+            return render_template('decks.html', message4 = message4)
+
+        if request.method == 'POST':
+            deck_name = request.form['deck_name']
+            cartas_selecionadas = request.form.getlist('cartas_selecionadas')
+
+            if deck_name and cartas_selecionadas:
+                
+                ids_cartas_selecionadas = [
+                        id for id, nome in zip(indice_cartas, lista_cartas)
+                        if nome in cartas_selecionadas 
+                    ]
+                
+                for carta_id in ids_cartas_selecionadas:
+                    
+                    query = "INSERT INTO decks (deck_name, idUsuario, idCarta) VALUES (%s, %s, %s)"
+                    cursor.execute(query, (deck_name, id_usuario, carta_id))
+
+                    conexao.commit()
+
+            else:
+                message5 = "Por favor, insira o nome do deck e selecione pelo menos uma carta."
+                return render_template('decks.html', lista_cartas=lista_cartas, message5=message5)
+
+        cursor.close()
+        conexao.close()    
+
+    except mysql.connector.Error as error:
+        return "Erro ao conectar-se ao banco de dados:{}".format(error)
+
+    return render_template('decks.html', lista_cartas = lista_cartas)
