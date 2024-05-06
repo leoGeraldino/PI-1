@@ -232,16 +232,17 @@ def decks():
 
             if deck_name and cartas_selecionadas:
                 
-                ids_cartas_selecionadas = [
-                        id for id, nome in zip(indice_cartas, lista_cartas)
-                        if nome in cartas_selecionadas 
-                    ]
-                
-                for carta_id in ids_cartas_selecionadas:
-                    
-                    query = "INSERT INTO decks (deck_name, idUsuario, idCarta) VALUES (%s, %s, %s)"
-                    cursor.execute(query, (deck_name, id_usuario, carta_id))
+                query_insert_deck = "INSERT INTO decks (deck_name, idUsuario) VALUES (%s, %s)"
+                cursor.execute(query_insert_deck, (deck_name, id_usuario))
+                deck_id = cursor.lastrowid
 
+                query_insert_deck_cartas = "INSERT INTO decks_cartas(idDeck, idCarta) VALUES (%s, %s)"
+                for carta_nome in cartas_selecionadas:
+                    carta_id = next (
+                        id for nome, id in zip(lista_cartas, indice_cartas)
+                        if nome == carta_nome
+                    )
+                    cursor.execute(query_insert_deck_cartas, (deck_id, carta_id))    
                     conexao.commit()
 
             else:
