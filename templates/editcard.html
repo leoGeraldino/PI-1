@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'CSS/estilo.css')}}" />
+	<title>Formulário de Cadastro</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Editar carta</h2>
+        <form method="post" action="{{url_for('views.salvar_edit_card')}}">
+            <input type="hidden" name="id_carta" value="{{ card_info[0] }}"/>
+        <div class="form-group">
+            <label for="card">Card:</label>
+            <input type="text" id="card" name="card" value="{{ card_info[2]}}" required>
+        </div>
+        <div class="form-group">
+            <label for="preco">Preço:</label>
+            <input type="text" id="preco" name="preco" value="{{ card_info[3]}}" required>
+        </div>
+        <div class="form-group">
+            <label for="artista">Artista:</label>
+            <input type="text" id="artista" name="artista" value="{{ card_info[4]}}" required>
+        </div>
+        <div class="form-group">
+            <label for="tipo">Tipo:</label>
+            <input type="text" id="tipo" name="tipo" value="{{ card_info[5]}}" required>
+        </div>
+        <div class="form-group">
+            <label for="texto">Texto:</label>
+            <input type="text" id="texto" name="texto" value="{{ card_info[6]}}" required>
+        </div>
+        <div class="form-group">
+            <label for="lealdade">Lealdade:</label>
+            <input type="text" id="lealdade" name="lealdade" value="{{ card_info[7]}}" required>
+        </div>
+        <div class="form-group">
+            <label for="cmc">CMC:</label>
+            <input type="text" id="cmc" name="cmc" value="{{ card_info[8]}}" required>
+        </div>
+        <div class="form-group">
+            <label for="edicao">Edição:</label>
+            <input type="text" id="edicao" name="edicao" value="{{ card_info[9]}}" required>
+        </div>
+        <div class="form-group">
+            <label for="formato">Formato:</label>
+            <input type="text" id="formato" name="formato" value="{{ card_info[10]}}" required>
+        </div>
+        <div class="form-group">
+            <label for="raridade">Raridade:</label>
+            <input type="text" id="raridade" name="raridade" value="{{ card_info[11]}}" required>
+        </div>
+        <div class="form-group">
+            <label for="cor">Cor:</label>
+            <input type="text" id="cor" name="cor" value="{{ card_info[12]}}" required>
+        </div>
+        <div class="form-group">
+            <label for="pr">PR:</label>
+            <input type="text" id="pr" name="pr" value="{{ card_info[13]}}" required>
+        </div>
+        <div class="form-group">
+            <label for="custos">Custos:</label>
+            <input type="text" id="custos" name="custos" value="{{ card_info[14]}}" required>
+        </div>
+    <!--<a href="{{ url_for('views.perfil')}}" class="botao-link">Cadastrar</a>-->
+        <input type="submit" value="Salvar alterações" class="botao-link"/> 
+        </form>
+    </div>
+</body>
+</html>
