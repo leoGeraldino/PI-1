@@ -6,25 +6,30 @@ body {
   background-size: cover; 
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed;	
+  background-attachment: fixed; 
 }
 
 .botao-link {
-	display: inline-block;
-	font-size: 13px;
-	padding: 10px 20px;
-	background-color: #9370DB;
-	color: #fff;
-	text-decoration: none;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
+  display: inline-block;
+  font-size: 13px;
+  padding: 10px 20px;
+  background-color: #9370DB;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.perfil{
-	display: flex;
+.botoes-perfil{
+  width: 200px;
+  text-align: center;
 }
-	
+
+.perfil {
+  display: flex;
+}
+  
 .container {
   width: 25%;
   margin: 50px auto;
@@ -69,18 +74,41 @@ h2 {
   margin-bottom: 20px;
 }
 
-.form-group-termos{
-	margin-bottom: 20px;
-    display: block
+.form-group-termos {
+  margin-bottom: 20px;
+  display: block;
 }
-	
-.link_menor{
-	font-size: 11px;
+  
+.link_menor {
+  font-size: 11px;
 }
 
-label {
+label, .deck_space {
   font-weight: bold;
   line-height: 1.5;
+}
+
+li {
+  list-style: none;
+}
+
+.deck_space {
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.deck_space:hover{
+  background-color: rgb(245, 244, 244);
+}
+
+.deck_space span {
+  flex-grow: 1;
+}
+
+.deck_space form {
+  margin-left: 10px;
 }
 
 input {
@@ -91,18 +119,59 @@ input {
   box-sizing: border-box;
 }
 
-button {
-  background-color: #4caf50;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.button-group {
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: space-around; 
+  align-items: center;
+  margin-top: 20px;
 }
 
-button:hover {
-  background-color: #45a049;
+.botao-link.botoes-perfil {
+  flex: 1 1 20%; 
+  margin: 10px; 
+  text-align: center; 
 }
+
+button svg{
+  display: block;
+  margin: auto;
+}
+
+.pencil-icon{
+  background-color: blue; 
+}
+
+.trash-icon{
+  background-color: red;
+}
+
+.pencil-icon, .trash-icon{
+  display: flex;
+  height: 100%;
+  border-radius: 5px;
+  border: none;
+}
+
+.pencil-icon:hover{
+  background-color: rgb(0, 0, 199);
+}
+
+.trash-icon:hover{
+  background-color: rgb(199, 0, 0);
+}
+
+.deck-cadastro{
+  display: inline-flex;
+  align-items: center; 
+  white-space: nowrap;
+}
+
+.deck-cadastro label {
+  margin-left: 8px; 
+}
+
+
 
 @media (max-width: 600px) {
   .container {
