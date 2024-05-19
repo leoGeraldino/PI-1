@@ -8,8 +8,6 @@
     <title>Cadastrar Decks | Deck Digital</title>
 </head>
 <body>
-	<!--<div class="perfil"></div>-->
-	
 	<div class="container">
 		<h2>Cadastrar Decks</h2>
         <form method="POST" action="{{ url_for('views.decks') }}">
@@ -17,35 +15,29 @@
                 <label for="deck_name">Nome do deck:</label>
                 <input type="text" id="deck_name" name="deck_name" required/>
             </div>
-
-            <h3>Cartas cadastradas:</h3>
+            <h4>Cartas cadastradas:</h4>
             <div class="form-group">
-
                 {% if message4 %}
 			        <div class="alert alert-danger" role="alert">
 				        {{message4}}
                         <a href="{{ url_for('views.cartas') }}" class="botao-link">Cadastrar cartas</a>
 			        </div>
 		        {% endif %}	
-
                 {% for carta in lista_cartas %}
-                    <div>
+                    <div class="deck-cadastro">                       
+                        
                         <input type="checkbox" id="carta_{{ loop.index }}" name="cartas_selecionadas" value="{{ carta }}"/>
                         <label for="carta_{{ loop.index }}"> {{ carta }}</label>
                     </div>
                 {% endfor %}
-
                 {% if message5 %}
 			        <div class="alert alert-danger" role="alert">
 				        {{message5}}
 			        </div>
 		        {% endif %}	
-            </div>
-                
+            </div>                
             <input type="submit" value="Cadastrar Deck" class="botao-link"/>
         </form>
-		<!--<a href="{{ url_for('views.cartas') }}" class="botao-link">Cadastrar cartas</a>
-		<a href="{{ url_for('views.decks') }}" class="botao-link">Cadastrar deck</a>-->
 	</div>
 	
 </body>
