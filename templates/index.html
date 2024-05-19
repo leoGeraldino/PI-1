@@ -28,13 +28,14 @@
 			<div class="form-group">
 				<input type="submit" value="Entrar" class="botao-link">
 			</div>
-		
 		</form>
-
-		<div>			
-			<a href="{{ url_for('views.registro') }}" class="botao-link">Crie uma nova conta</a>
+		<div>
+			<form method="post" action="{{ url_for('views.redirect_registro') }}">
+				<div class="form-group">
+					<input type="submit" value="Crie uma nova conta" class="botao-link">
+				</div>
+			</form>			
 		</div>
-
 	</div>
 </body>
 </html>
