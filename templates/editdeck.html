@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'CSS/estilo.css')}}" />
+	<style>
+	</style>
+    <title>Editar Decks | Deck Digital</title>
+</head>
+<body>
+	<div class="container">
+		<h2>Editar deck</h2>
+        <form method="POST" action="{{ url_for('views.save_edit_deck') }}">
+            <div class="form-group">
+                <label for="deck_name">Nome do deck:</label>
+                <input type="hidden" name="id_deck_retornado" value="{{ id_deck_retornado }}"/>
+                <input type="text" id="deck_name" name="deck_name" value="{{ deck_name_edit }}" required/>
+            </div>
+            <h3>Cartas cadastradas:</h3>
+            <div class="form-group">
+                {% for carta in lista_cartas_usuario %}
+                    <div>
+                        {% if carta[0] in cartas_no_deck %}  
+                        <input 
+                            type="checkbox" 
+                            id="carta_{{ loop.index }}" 
+                            name="cartas_selecionadas" 
+                            value="{{ carta[0] }}"
+                            checked />
+                        {% else %}
+                        <input 
+                            type="checkbox" 
+                            id="carta_{{ loop.index }}" 
+                            name="cartas_selecionadas" 
+                            value="{{ carta[0] }}" />
+                        {% endif %} 
+                        <label for="carta_{{ loop.index }}"> {{ carta[0]}}</label>
+                    </div>
+                {% endfor %}
+            </div>                
+            <input type="submit" value="Salvar alterações" class="botao-link"/>
+        </form>
+	</div>
+	
+</body>
+</html>
