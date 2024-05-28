@@ -1,0 +1,20 @@
+CREATE TABLE `cartas` (
+  `idCarta` int NOT NULL AUTO_INCREMENT,
+  `idUsuario` int DEFAULT NULL,
+  `card` varchar(255) DEFAULT NULL,
+  `preco` decimal(10,2) DEFAULT NULL,
+  `artista` varchar(255) DEFAULT NULL,
+  `tipo` varchar(50) DEFAULT NULL,
+  `texto` text,
+  `lealdade` int DEFAULT NULL,
+  `CMC` int DEFAULT NULL,
+  `edicao` varchar(50) DEFAULT NULL,
+  `formato` varchar(50) DEFAULT NULL,
+  `raridade` varchar(50) DEFAULT NULL,
+  `cor` varchar(50) DEFAULT NULL,
+  `pr` int DEFAULT NULL,
+  `custos` int DEFAULT NULL,
+  PRIMARY KEY (`idCarta`),
+  KEY `idUsuario` (`idUsuario`),
+  CONSTRAINT `cartas_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuarios`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
